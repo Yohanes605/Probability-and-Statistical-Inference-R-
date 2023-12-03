@@ -1,0 +1,235 @@
+---
+title: "Final Paper"
+author: "Yohanes Woldeselassie"
+date: "2023-10-15"
+
+output: html_document
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+
+## Factors Affecting Higher Education Dropout
+
+
+### Introduction
+
+
+Student dropout is a major problem in higher education. It is estimated that over 40% of students drop out of college before completing their degree program. This can have a significant impact on students’ future earnings and employment prospects. Because of this and personal interest as well to the subject matter i have chosen to work on a model that analyzes key factors (independent features) that affect student dropouts. I believe this is useful as it can help key stakeholders identify problems with students and provide the necessary support.
+
+
+### Dataset
+
+The dataset that was used for this project is a dataset containing academic information about college students and the possible factors that might affect their ability to continue their studies. The dataset includes demographic data, social-economic factors, and academic performance information along with other features for an in-depth analysis. The data set is found on Kaggle.com and it is among the highest rated and reviewed data set. Which makes it ideal as it needs minimal data cleaning and pre processing. the data set contains 32 independent variables across different categories which makes it ideal as it gives the research different points of analysis. The data set can be a very powerful tool of analysis as it can be used to analyze factors that leads students to abandon their studies across a wide range of disciplines. 
+
+The createer of this data set is a student named Jeevabharathi S, who is a student from Tiruppur, Tamil Nadu, India. He also used the data set for a similar research owever his work was under python suing the Pandas library along with other libraries. Similar to both the Author (of the data set) as well as this research papers work readers can also attempt to create a model that can analyze key factors that affect the likelihood of students drop outs and even take the research further by attempting to create a model that can predict the likelihood of student dropouts before they happen. 
+
+
+\newpage
+
+#### Dataset Structure
+
+```{r cars, echo=FALSE}
+# Loading the data
+data<-read.csv("~/edu_data.csv")
+str(data)
+```
+
+\newpage
+
+### Anticipated insights to be gained:
+
+1.	What are the key predictors of student dropouts?
+2.	Which students are most at risk of dropping out?
+3.	How can students’ ability to finish their coursework and graduate be improved?
+
+### Plans of Analysis:
+
+In terms of my plans for analysis, The project first intends to analyze and explore the data set along with performing data cleaning and pre processing (though in this case that is very minimal). Following that the next step will be to understand the data set further through the means of exploratory data analysis (EDA). After that step is complete the next step will be to explore different models and identify which model works best in explaining and highlighting which independent variables affects students drop outs most. Finally this project will attempt to create a predictive model that can predict the likelihood of students droping out. This will be done through the division of the model into a training and test case and after that through an iterative process this project will attempt to create the best model for prediction.
+
+### Expected outcomes:
+
+1.	A predictive model that can identify students who are at risk of dropping out.
+2.	A better understanding of the key factors that affect dropouts.
+
+### Conducted EDA
+
+In the attempt to understand the data set further there have been several exploratory data analysis that have been performed. Including identifying the portion of students that have dropped out, are enrolled and graduated, The number of people in different genders, the portion of students that have a scholarship, the number of people that are daytime students and night time students and so on. Besides that there has also been more relational EDAs done between independent and dependent variables. for example analyzing the relationship between age and the students status (dropout, enrolled, and graduated) this was done through box plots. The results of all the EDA’s performed is as follows.
+
+
+
+```{r data load, include=FALSE}
+data<-read.csv("~/edu_data.csv")
+```
+
+
+#### 1. Type of Student by Education Status
+
+```{r, echo=FALSE, message=FALSE , warning=FALSE}
+
+data%>%
+  ggplot(aes(x = Target)) +
+  geom_bar(fill = "skyblue")+
+  coord_flip()+
+  theme_bw()
+
+
+```
+
+
+
+#### 2. Type of Studnt by Gender
+```{r, echo=FALSE}
+data %>%
+  ggplot(aes(x = Gender)) +
+  geom_bar(fill = "skyblue")+
+  coord_flip()+
+  theme_bw()
+
+```
+
+
+
+#### 3. Type of Student by Schoalrship Status
+
+
+```{r, echo=FALSE, message=FALSE , warning=FALSE}
+
+data %>%
+  ggplot(aes(x = Scholarship.holder)) +
+  geom_bar(fill = "skyblue")+
+  coord_flip()+
+  theme_bw()
+
+```
+
+
+
+#### 4. Students program type 
+
+
+```{r, echo=FALSE}
+data %>%
+  ggplot(aes(x = Daytime.evening.attendance)) +
+  geom_bar(fill = "skyblue")+
+  coord_flip()+
+  theme_bw()
+```
+
+
+#### 5. Maritial Status of Students
+
+
+```{r, echo=FALSE}
+data %>%
+  ggplot(aes(x = Marital.status)) +
+  geom_bar(fill = "skyblue")+
+  coord_flip()
+```
+
+
+
+#### 6.Students age of Enrollment 
+
+
+```{r , echo=FALSE, message=FALSE , warning=FALSE}
+
+data %>%
+  ggplot(aes( x =Age.at.enrollment))+
+  geom_histogram(binwidth = 1, fill = "red")+
+  theme_bw()
+
+```
+
+
+#### 7. Age of Enrollement vs Academic Status 
+
+
+```{r , echo=FALSE, message=FALSE , warning=FALSE}
+
+data %>%
+ggplot(aes(x = Age.at.enrollment, y = Target)) +
+  coord_flip()+
+  geom_boxplot(fill = "skyblue", color = "darkblue")
+
+```
+
+
+
+
+### Models
+
+The project conducted an iterative modeling approach to uncover the intricate factors that contribute to student dropout rates. The model building initially included all independent variables, casting a wide net to capture potential influencing features. Through a series of model refinements, The project employed a backward selection process, systematically removing the least significant independent variables (those with the highest p-values). This iterative variable elimination process was done up until the point where there was a model that had the lowest possible AIC score. This model can further be used by readers by altering  The ultimate goal was to construct a model with a lean set of highly significant variables, while optimizing model fit using metrics like AIC and Fisher scores.
+
+### Best-Performing Model
+
+Among the various models evaluated, the standout performer from this research emerged to be the logit logistic regression model. This model came to have the lowest AIC score along with the lowest fisher score making it comparatively better.
+
+### Key Findings
+
+Across all the models analyzed, two variables consistently emerged as highly significant drivers of student dropout behavior: “Tuition.fees.up.to.date” and “Curricular.units.2nd.sem..approved.” These variables exhibited significance in my analyses, reinforcing their importance in understanding the dynamics of student attrition. The results are as follows.
+
+
+#### Results:
+
+
+##### 1. Logistic Regression (logit)
+
+
+```{r, echo=FALSE, warning=FALSE}
+databb<-read.csv("~/edu_data_bino.csv")
+set.seed(3333)
+# Taking a random sample from the data
+samples<-sample(c(1:1000),size=300,replace = F)
+data2<-databb[samples,]
+
+# Creating a logistic model using logit
+data_log <- glm(Target~Course+Previous.qualification+Father.s.qualification+
+Tuition.fees.up.to.date+Age.at.enrollment+
+International+Curricular.units.1st.sem..credited.+
+Curricular.units.1st.sem..approved.+
+Curricular.units.2nd.sem..enrolled.+
+Curricular.units.2nd.sem..approved.+
+Unemployment.rate+Inflation.rate,
+                  family=binomial(link="probit"), # the family of model and the link function
+                  data=data2) # The dataset you want to use
+summary(data_log)
+
+```
+
+
+##### 2. Logistic Regression (Probit)
+
+
+```{r pressure, echo=FALSE, warning=FALSE}
+databb<-read.csv("~/edu_data_bino.csv")
+set.seed(3333)
+
+samples<-sample(c(1:1000),size=300,replace = F)
+data2<-databb[samples,]
+
+# Creating a logistic model using logit
+data_log <- glm(Target~Course+Father.s.qualification+
+                  Tuition.fees.up.to.date+Age.at.enrollment+
+                  International+Curricular.units.1st.sem..credited.+
+                  Curricular.units.1st.sem..approved.+Curricular.units.2nd.sem..enrolled.+
+                  Curricular.units.2nd.sem..approved.+Unemployment.rate+Inflation.rate,
+                  family=binomial(link="logit"), # the family of model and the link function
+                  data=data2) # The dataset you want to use
+summary(data_log)
+```
+
+
+
+
+
+#### Refrences: 
+
+Data source: https://www.kaggle.com/code/jeevabharathis/student-dropout-analysis-for-school-education
+
+Data Author: Jeevabharathi S
+
+Linkedin Profile: https://www.linkedin.com/in/jeevabharathi-s-aa2062248/
